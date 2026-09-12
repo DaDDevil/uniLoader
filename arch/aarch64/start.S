@@ -22,13 +22,18 @@ _stack_size:
 
 .align 4
 #endif
+.extern abl_dtb_ptr
+
 ENTRY(_start)
+	/* Preserve ABL DTB pointer in callee-saved register x21 */
+	mov     x21, x0
+
 	/* Set up the base address for the stack */
 	adrp    x0, _stack_end      /* Load page of the _stack_end symbol */
 	add     x0, x0, #:lo12:_stack_end  /* Add the offset within the page */
 
 	/* Set up the stack pointer (SP) */
-	mov sp, x0
+	mov     sp, x0
 
 	/* Zero BSS section */
 	adrp    x0, __bss_start
@@ -42,15 +47,22 @@ ENTRY(_start)
 	b       1b
 2:
 
+	/* Store preserved ABL DTB pointer into global variable */
+	adrp    x0, abl_dtb_ptr
+	str     x21, [x0, #:lo12:abl_dtb_ptr]
+
 	/* Fall through */
 	adrp    x0, dtb             /* Load page of dtb */
 	add     x0, x0, #:lo12:dtb  /* Add offset within the page */
 	adrp    x1, kernel          /* Load page of kernel */
 	add     x1, x1, #:lo12:kernel /* Add offset within the page */
 #ifndef CONFIG_RAMDISK_NO_COPY
-	adrp    x2, ramdisk          /* Load page of kernel */
+	adrp    x2, ramdisk          /* Load page of ramdisk */
 	add     x2, x2, #:lo12:ramdisk /* Add offset within the page */
+#else
+	mov     x2, xzr
 #endif
+	mov     x3, x21             /* Pass ABL DTB pointer as 4th argument */
 
 	bl main
 END(_start)

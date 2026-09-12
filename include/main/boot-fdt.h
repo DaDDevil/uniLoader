@@ -6,6 +6,8 @@
 #ifndef BOOT_FDT_H_
 #define BOOT_FDT_H_
 
+extern void *abl_dtb_ptr;
+
 void patch_dtb(void** dt);
 
 #endif // BOOT_FDT_H_

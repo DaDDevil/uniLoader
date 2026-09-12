@@ -25,14 +25,20 @@ static void print_splash(void)
 	printk(KERN_INFO, "welcome to uniLoader %s on %s\n", VER_TAG, board_ops.name);
 }
 
-void main(void* dt, void* kernel, void* ramdisk)
+extern void *abl_dtb_ptr;
+
+void main(void* dt, void* kernel, void* ramdisk, void* abl_dtb)
 {
+	if (abl_dtb && !abl_dtb_ptr)
+		abl_dtb_ptr = abl_dtb;
+
 	early_console_init();
 	INITCALL(board_ops.ops.early_init);
 
 	driver_probe_all(board_ops.devices, board_ops.num_devices);
 
 	print_splash();
+	printk(KERN_INFO, "ABL DTB pointer: %p\n", abl_dtb_ptr);
 
 	INITCALL(board_ops.ops.late_init);
 

@@ -53,6 +53,13 @@ menu "Device Support"
 		  developers may want to leave this on to avoid holding down
 		  the power button every time.
 
+	config HUAWEI_LUA_L21
+		bool "Support for Huawei Y3 II 4G"
+		default n
+		depends on MT6735
+		help
+		  Say Y if you want to include support for Huawei Y3 II 4G
+
 	config HTC_v36BML
 		bool "Support for HTC Desire 628 Dual"
 		default n
@@ -239,6 +246,13 @@ menu "Device Support"
 		help
 		  Say Y if you want to include support for Samsung Galaxy Tab S6 Lite (2020)
 
+	config SAMSUNG_GTS8WIFI
+		bool "Support for Samsung Galaxy Tab S8 (Wi-Fi)"
+		default n
+		depends on SM8450
+		help
+		  Say Y if you want to include support for Samsung Galaxy Tab S8 (Wi-Fi)
+
 	config SAMSUNG_HEROLTE
 		bool "Support for Samsung Galaxy S7"
 		default n
@@ -316,13 +330,6 @@ menu "Device Support"
 		help
 		  Say Y if you want to include support for Samsung Galaxy S6
 
-	config SONY_LILAC
-		bool "Support for Sony Xperia XZ1 Compact"
-		default n
-		depends on MSM8998
-		help
-		  Say Y if you want to include support for Sony Xperia XZ1 Compact
-
 	config SONY_PDX245
 		bool "Support for Sony Xperia 1 VI"
 		default n
@@ -338,19 +345,19 @@ menu "Device Support"
 		  Say Y if you want to include support for Sony PlayStation
 		  Vita.
 		  
+	config TECLAST_T40PRO
+		bool "Support for Teclast T40 Pro"
+		default n
+		depends on UMS9230
+		help
+		  Say Y if you want to include support for Teclast T40 Pro
+
 	config TECNO_LI7
 		bool "Support for Tecno Pova 6"
 		default n
 		depends on MT6789
 		help
 		  Say Y if you want to include support for Tecno Pova 6
-
-	config VOLLA_ALGIZ
-		bool "Support for Volla Phone Quintus"
-		default n
-		depends on MT6877
-		help
-		  Say Y if you want to include support for Volla Phone Quintus
 
 	config XIAOMI_BEGONIA
 		bool "Support for Redmi Note 8 Pro"
@@ -424,12 +431,10 @@ menu "Device Specific Addresses"
 		hex "Payload Entry Address"
 		default 0x50000000 if NOTHING_TETRIS
 		default 0x050000000 if SAMSUNG_J4LTE
-		default 0x60000000 if VOLLA_ALGIZ
 		default 0x50000000 if XIAOMI_BEGONIA
 
 	config RAMDISK_ENTRY
 		hex "Ramdisk Entry Address"
 		default 0x40000000 if NOTHING_TETRIS
-		default 0x51100000 if VOLLA_ALGIZ
 		default 0x48000000 if XIAOMI_BEGONIA
 endmenu
